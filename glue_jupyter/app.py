@@ -544,6 +544,27 @@ class JupyterApplication(Application):
 
         return view
 
+    def modelviewer(self, data=None, viewer_height="500px", x=None, y=None, z=None, show=True):
+        from .model_viewer import ModelViewer
+
+        data = validate_data_argument(self.data_collection, data)
+
+        view = self.new_data_viewer(ModelViewer, data=data, show=show)
+
+        view.figure_widget.viewer_height = viewer_height
+
+        if x is not None:
+            x = data.id[x]
+            view.state.x_att = x
+        if y is not None:
+            y = data.id[y]
+            view.state.y_att = y
+        if z is not None:
+            z = data.id[z]
+            view.state.z_att = z
+
+        return view
+
     def subset(self, name, subset_state):
         """
         Create a new selection/subset.
